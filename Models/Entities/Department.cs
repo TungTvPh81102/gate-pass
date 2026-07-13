@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackEnd.Models.Entities;
 
@@ -13,7 +12,7 @@ public partial class Department
 
     public int? ParentId { get; set; }
 
-    public byte Stat { get; set; }
+    public byte Status { get; set; }
 
     public string? Description { get; set; }
 
