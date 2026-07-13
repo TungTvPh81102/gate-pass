@@ -78,10 +78,14 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_Users_Department");
         });
 
-        modelBuilder.Entity<Company>()
-           .ToTable("Companies")
-          .Property(c => c.Status)
+        modelBuilder.Entity<Company>(entity =>
+        {
+            entity.HasIndex(e => e.Code)
+        .IsUnique();
+            entity.ToTable("Companies");
+            entity.Property(c => c.Status)
           .HasDefaultValue((byte)1);
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }

@@ -60,9 +60,9 @@ namespace BackEnd.Controllers
             if (!ModelState.IsValid)
                 return BadRequestWithModelErrors();
 
-          var result = await _companyService.UpdateAsync(id, request);
+            var result = await _companyService.UpdateAsync(id, request);
 
-            return Success(result,"Company updated successfully");
+            return Success(result, "Company updated successfully");
         }
 
         [HttpDelete("{id}")]

@@ -39,7 +39,7 @@ namespace BackEnd.Controllers
             });
         }
 
-        protected new IActionResult BadRequest(string message, IEnumerable<string>? errors = null)
+        protected  IActionResult BadRequest(string message, IEnumerable<string>? errors = null)
         {
             return base.BadRequest(new ApiResponse<object>
             {
@@ -59,7 +59,7 @@ namespace BackEnd.Controllers
             return BadRequest("Validation failed", errors);
         }
 
-        protected new IActionResult NotFound(string message = "Resource not found")
+        protected  IActionResult NotFound(string message = "Resource not found")
         {
             return base.NotFound(new ApiResponse<object>
             {
@@ -69,7 +69,7 @@ namespace BackEnd.Controllers
             });
         }
 
-        protected new IActionResult Conflict(string message = "Conflict occurred")
+        protected  IActionResult Conflict(string message = "Conflict occurred")
         {
             return base.Conflict(new ApiResponse<object>
             {

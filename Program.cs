@@ -1,13 +1,19 @@
+using System.Reflection;
+using BackEnd.Common;
+using BackEnd.Extensions;
 using BackEnd.Middlewares;
 using BackEnd.Models.Entities;
 using BackEnd.Repositories.Companies;
 using BackEnd.Services.Companies;
-using BackEnd.Validators.Company;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Host.UseSerilog((ctx, config) => config
     .MinimumLevel.Information()
     .WriteTo.Console()
@@ -18,9 +24,12 @@ builder.Host.UseSerilog((ctx, config) => config
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add services to the container.
+// Validation configuration
+builder.Services.AddCustomValidation();
 
 builder.Services.AddControllers();
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -37,6 +46,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
