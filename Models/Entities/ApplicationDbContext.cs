@@ -30,8 +30,10 @@ public partial class ApplicationDbContext : DbContext
             entity.ToTable("Departments");
 
             entity.HasIndex(e => e.ParentId, "IX_Departments_ParentDepartmentId");
+            entity.HasIndex(e => e.CompanyId);
 
-            entity.HasIndex(e => e.Code, "UQ__Departme__A25C5AA7256E0E11").IsUnique();
+            entity.HasIndex(e => e.Code)
+            .IsUnique();
 
             entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysdatetime())");
@@ -44,6 +46,12 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("FK_Departments_Parent");
+
+            entity.HasOne(d => d.Company)
+          .WithMany(c => c.Departments)
+          .HasForeignKey(d => d.CompanyId)
+          .OnDelete(DeleteBehavior.Restrict)
+          .HasConstraintName("FK_Departments_Companies");
         });
 
         modelBuilder.Entity<User>(entity =>
