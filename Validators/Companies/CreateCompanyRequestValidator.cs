@@ -28,7 +28,8 @@ namespace BackEnd.Validators.Companies
                 .WithMessage("Phone number is invalid.");
 
             RuleFor(x => x.Tax)
-                .MaximumLength(20).WithMessage("Tax code cannot exceed 50 characters").When(x => !string.IsNullOrEmpty(x.Tax));
+                .MaximumLength(20).WithMessage("Tax code cannot exceed 20 characters")
+                .When(x => !string.IsNullOrEmpty(x.Tax));
 
             RuleFor(x => x.Status)
                 .InclusiveBetween((byte)0, (byte)1);

@@ -28,18 +28,12 @@ namespace BackEnd.Controllers
             });
         }
 
-        protected IActionResult NoContent(string message = "No content")
+        protected IActionResult NoContent()
         {
-            return StatusCode(StatusCodes.Status204NoContent, new ApiResponse<object>
-            {
-                Success = true,
-                Message = message,
-                Data = null,
-                TraceId = GetTraceId()
-            });
+            return base.NoContent();
         }
 
-        protected  IActionResult BadRequest(string message, IEnumerable<string>? errors = null)
+        protected IActionResult BadRequest(string message, IEnumerable<string>? errors = null)
         {
             return base.BadRequest(new ApiResponse<object>
             {
@@ -59,7 +53,7 @@ namespace BackEnd.Controllers
             return BadRequest("Validation failed", errors);
         }
 
-        protected  IActionResult NotFound(string message = "Resource not found")
+        protected IActionResult NotFound(string message = "Resource not found")
         {
             return base.NotFound(new ApiResponse<object>
             {
@@ -69,7 +63,7 @@ namespace BackEnd.Controllers
             });
         }
 
-        protected  IActionResult Conflict(string message = "Conflict occurred")
+        protected IActionResult Conflict(string message = "Conflict occurred")
         {
             return base.Conflict(new ApiResponse<object>
             {

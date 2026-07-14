@@ -42,24 +42,16 @@ namespace BackEnd.Controllers
         public async Task<IActionResult> Create(
             [FromBody] CreateCompanyRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequestWithModelErrors();
-            }
-
             var result = await _companyService.CreateAsync(request);
 
             return Created(result, "Company created successfully.");
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateCompanyRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequestWithModelErrors();
-
             var result = await _companyService.UpdateAsync(id, request);
 
             return Success(result, "Company updated successfully");
@@ -69,7 +61,7 @@ namespace BackEnd.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _companyService.DeleteAsync(id);
-            return NoContent("Company deleted successfully");
+            return NoContent();
         }
     }
 }

@@ -67,8 +67,8 @@ namespace BackEnd.Services.Companies
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError("Database error when creating company with code: {Code}");
-                throw new InvalidOperationException(ex.Message);
+                _logger.LogError(ex, "Database error when creating company with code: {Code}", request.Code);
+                throw new InvalidOperationException("Company code already exists or violates database constraints.");
             }
             catch (Exception ex)
             {
@@ -90,6 +90,11 @@ namespace BackEnd.Services.Companies
                     throw new KeyNotFoundException($"Company with id {id} not found");
                 }
 
+                if (await _repository.HasDepartmentsAsync(id))
+                {
+                    throw new InvalidOperationException("Cannot delete company because it still has departments.");
+                }
+
                 await _repository.DeleteAsync(company);
 
                 _logger.LogInformation("Company deleted successfully with id: {Id}", id);
@@ -97,6 +102,11 @@ namespace BackEnd.Services.Companies
             catch (KeyNotFoundException ex)
             {
                 _logger.LogWarning(ex, "Company not found for deletion");
+                throw;
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Company cannot be deleted with id: {Id}", id);
                 throw;
             }
             catch (Exception ex)
@@ -122,12 +132,17 @@ namespace BackEnd.Services.Companies
                     Code = c.Code,
                     Name = c.Name,
                     Status = c.Status,
-                    Description = c.Description
+                    Description = c.Description,
+                    Address = c.Address,
+                    Phone = c.Phone,
+                    Tax = c.Tax,
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt,
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error when creating company");
+                _logger.LogError(ex, "Unexpected error when getting companies");
                 throw;
             }
         }
@@ -153,8 +168,12 @@ namespace BackEnd.Services.Companies
                     Name = company.Name,
                     Status = company.Status,
                     Description = company.Description,
+                    CreatedAt = company.CreatedAt,
+                    UpdatedAt = company.UpdatedAt,
+                    Phone = company.Phone,
                     Address = company.Address,
-                    CreatedAt = company.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Tax = company.Tax,
+                    CreatedBy = company.CreatedBy,
                 };
             }
             catch (Exception ex)
@@ -217,7 +236,7 @@ namespace BackEnd.Services.Companies
                 Address = company.Address,
                 Phone = company.Phone,
                 Tax = company.Tax,
-                CreatedAt = company.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")
+                CreatedAt = company.CreatedAt
             };
         }
     }

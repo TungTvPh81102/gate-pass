@@ -13,5 +13,9 @@ namespace BackEnd.Repositories.Companies
         Task UpdateAsync(Company company);
 
         Task DeleteAsync(Company company);
+
+        Task<bool> ExistsAsync(int id);
+
+        Task<bool> HasDepartmentsAsync(int id);
     }
 }

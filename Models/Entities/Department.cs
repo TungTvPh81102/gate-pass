@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace BackEnd.Models.Entities;
+﻿namespace BackEnd.Models.Entities;
 
 public partial class Department
 {
@@ -12,7 +10,7 @@ public partial class Department
 
     public string Name { get; set; } = null!;
 
-    public int? ParentId { get; set; }
+    public int? ParentId { get; set; } = null;
 
     public byte Status { get; set; }
 

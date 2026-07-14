@@ -1,12 +1,11 @@
-﻿using BackEnd.DTOs.Requests.Department;
-using BackEnd.Repositories.Companies;
+using BackEnd.DTOs.Requests.Department;
 using FluentValidation;
 
 namespace BackEnd.Validators.Departments
 {
-    public class CreateDepartmentRequestValidator : AbstractValidator<CreateDepartmentRequest>
+    public class UpdateDepartmentRequestValidator : AbstractValidator<UpdateDepartmentRequest>
     {
-        public CreateDepartmentRequestValidator()
+        public UpdateDepartmentRequestValidator()
         {
             RuleFor(x => x.Code)
                 .NotEmpty().WithMessage("Department code is required.")

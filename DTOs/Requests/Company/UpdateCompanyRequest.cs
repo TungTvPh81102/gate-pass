@@ -2,7 +2,7 @@
 {
     public class UpdateCompanyRequest
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public string? Description { get; set; }
 
@@ -12,7 +12,7 @@
 
         public string? Tax { get; set; }
 
-        public byte? Status { get; set; } = 1;
+        public byte? Status { get; set; }
 
         public string? UpdatedBy
         {

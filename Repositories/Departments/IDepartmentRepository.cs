@@ -1,19 +1,28 @@
-﻿using BackEnd.Models.Entities;
+﻿using BackEnd.DTOs.Responses.Department;
+using BackEnd.Models.Entities;
 
 namespace BackEnd.Repositories.Departments
 {
     public interface IDepartmentRepository
     {
-        //Task<IEnumerable<Department>> GetAllAsync();
+        Task<IEnumerable<Department>> GetAllAsync();
 
-        //Task<Department?> GetByIdAsync(int id);
+        Task<Department?> GetByIdAsync(int id);
 
-        //Task<Department> AddAsync(Department company);
+        Task<DepartmentResponse?> GetByIdResponseAsync(int id);
 
-        //Task UpdateAsync(Department company);
+        Task<Department> AddAsync(Department department);
 
-        //Task DeleteAsync(Department company);
+        Task UpdateAsync(Department department);
 
-        Task ExistsByCodeAndCompanyAsync(string code, int companyId);
+        Task DeleteAsync(Department department);
+
+        Task<bool> ExistsAsync(int id);
+
+        Task<bool> CodeExistsAsync(string code, int? excludedId = null);
+
+        Task<bool> HasChildrenAsync(int id);
+
+        Task<bool> HasUsersAsync(int id);
     }
 }

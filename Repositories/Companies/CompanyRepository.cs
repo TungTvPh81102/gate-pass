@@ -48,5 +48,15 @@ namespace BackEnd.Repositories.Companies
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await _context.Companies.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> HasDepartmentsAsync(int id)
+        {
+            return await _context.Departments.AnyAsync(x => x.CompanyId == id);
+        }
     }
 }
