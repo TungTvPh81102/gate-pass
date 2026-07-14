@@ -28,11 +28,6 @@ namespace BackEnd.Controllers
             });
         }
 
-        protected IActionResult NoContent()
-        {
-            return base.NoContent();
-        }
-
         protected IActionResult BadRequest(string message, IEnumerable<string>? errors = null)
         {
             return base.BadRequest(new ApiResponse<object>

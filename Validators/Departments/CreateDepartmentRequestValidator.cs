@@ -1,5 +1,4 @@
 ﻿using BackEnd.DTOs.Requests.Department;
-using BackEnd.Repositories.Companies;
 using FluentValidation;
 
 namespace BackEnd.Validators.Departments

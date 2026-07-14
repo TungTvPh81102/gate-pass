@@ -5,12 +5,15 @@ using BackEnd.Middlewares;
 using BackEnd.Models.Entities;
 using BackEnd.Repositories.Companies;
 using BackEnd.Repositories.Departments;
+using BackEnd.Repositories.Users;
 using BackEnd.Services.Companies;
 using BackEnd.Services.Departments;
+using BackEnd.Services.Users;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,11 +48,7 @@ builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-builder.Services.AddScoped<ICompanyService, CompanyService>();
-
-builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
@@ -59,12 +58,12 @@ app.UseMiddleware<ExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None));
     app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
